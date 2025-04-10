@@ -2,32 +2,43 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { SignInputState, userSignupSchema } from "@/schema/userSchema";
 import { Contact2, Loader2, LockKeyhole, Mail, User } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
-interface SignInputState {
-    fullName:string,
-    email:string,
-    password:string,
-    contact:string
-}
+// interface SignInputState {
+//     fullName:string,
+//     email:string,
+//     password:string,
+//     contact:string
+// }
 
 const Signup = () => {
     const [input,setInput]=useState<SignInputState>({
-        fullName:'',
+        fullname:'',
         email:'',
         password:'',
         contact:''
     })
+    const [erros,setErros]=useState<Partial<SignInputState>>({})
     const changeEventHandler=(e:ChangeEvent<HTMLInputElement>)=>{
         const {name,value}=e.target;
         setInput({...input,[name]:value})
     }
-
+         
+    //! submit form 
     const loginSubmitHandler=(e:FormEvent)=>{
         e.preventDefault()
-        console.log(input)
+        // form validation check start
+        const result=userSignupSchema.safeParse(input)
+        if(!result.success){
+            const fieldErrors=result.error.formErrors.fieldErrors;
+            setErros(fieldErrors as Partial<SignInputState>)
+            return;
+        }
+        // api implemtetion start
+        console.log(input) 
     }
   const loading = false; // Set true to test loader
 
@@ -43,12 +54,13 @@ const Signup = () => {
           <Input
             id="fullname"
             type="text"
-            name="fullName"
-            value={input.fullName}
+            name="fullname"
+            value={input.fullname}
             onChange={changeEventHandler}
             placeholder="Enter your fullname"
             className="w-full"
           />
+          { erros && <span className=" text-sm text-red-500">{erros.fullname}</span>}
         </div>
 
         {/* Email Field */}
@@ -65,6 +77,7 @@ const Signup = () => {
             placeholder="Enter your email"
             className="w-full"
           />
+          { erros && <span className=" text-sm text-red-500">{erros.email}</span>}
         </div>
 
         {/* Password Field */}
@@ -81,6 +94,7 @@ const Signup = () => {
             placeholder="Enter your password"
             className="w-full"
           />
+          { erros && <span className=" text-sm text-red-500">{erros.password}</span>}
         </div>
         {/* contect */}
         <div className="space-y-2">
@@ -96,6 +110,7 @@ const Signup = () => {
             placeholder="Enter your contact"
             className="w-full"
           />
+          { erros && <span className=" text-sm text-red-500">{erros.contact}</span>}
         </div>
 
         {/* Submit Button */}

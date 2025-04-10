@@ -2,14 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { LoginInputState } from "@/schema/userSchema";
 import { Loader2, LockKeyhole, Mail } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
-interface LoginInputState {
-    email:string,
-    password:string
-}
+// interface LoginInputState {
+//     email:string,
+//     password:string
+// }
 
 const Login = () => {
     const [input,setInput]=useState<LoginInputState>({
