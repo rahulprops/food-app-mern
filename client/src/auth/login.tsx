@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { LoginInputState } from "@/schema/userSchema";
+import { LoginInputState, userLoginSchema } from "@/schema/userSchema";
 import { Loader2, LockKeyhole, Mail } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,6 +17,7 @@ const Login = () => {
         email:'',
         password:''
     })
+    const [error,setError]=useState<Partial<LoginInputState>>({})
     const changeEventHandler=(e:ChangeEvent<HTMLInputElement>)=>{
         const {name,value}=e.target;
         setInput({...input,[name]:value})
@@ -24,7 +25,13 @@ const Login = () => {
 
     const loginSubmitHandler=(e:FormEvent)=>{
         e.preventDefault()
-        console.log(input)
+        const result=userLoginSchema.safeParse(input)
+        if(!result.success){
+            const fieldError=result.error.formErrors.fieldErrors;
+            setError(fieldError as Partial<LoginInputState>)
+            return;
+        }
+        console.log(input) 
     }
   const loading = false; // Set true to test loader
 
@@ -47,6 +54,7 @@ const Login = () => {
             placeholder="Enter your email"
             className="w-full"
           />
+          { error && <span className=" text-sm text-red-500">{error.email}</span>}
         </div>
 
         {/* Password Field */}
@@ -63,6 +71,7 @@ const Login = () => {
             placeholder="Enter your password"
             className="w-full"
           />
+           { error && <span className=" text-sm text-red-500">{error.password}</span>}
         </div>
 
         {/* Submit Button */}
