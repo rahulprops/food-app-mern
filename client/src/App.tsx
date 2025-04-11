@@ -1,3 +1,4 @@
+import ForgotPassword from "./auth/ForgotPassword";
 import Login from "./auth/login"
 import Signup from "./auth/Signup";
 import MainLayout from "./MainLayout"
@@ -13,6 +14,7 @@ function App() {
       {/* Public Routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
      
 
       {/* Protected Routes - wrapped inside MainLayout */}

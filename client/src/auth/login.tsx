@@ -82,6 +82,10 @@ const Login = () => {
           </Button>
         </div>
 
+        <div className=" flex justify-center">
+          <Link to="/forgot-password" className=" text-blue-500" > Forgot Possword </Link>
+        </div>
+
         <Separator />
 
         {/* Sign Up Link */}
