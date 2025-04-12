@@ -3,6 +3,7 @@ import Login from "./auth/login"
 import ResetPassword from "./auth/ResetPassword";
 import Signup from "./auth/Signup";
 import VerifyEmail from "./auth/VerifyEmail";
+import Navbar from "./components/ui/Navbar";
 import MainLayout from "./MainLayout"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -22,7 +23,7 @@ function App() {
      
 
       {/* Protected Routes - wrapped inside MainLayout */}
-      <Route path="/" element={<MainLayout />}>
+      <Route path="/" element={<Navbar />}>
         
         {/* You can nest more protected routes here */}
       </Route>
